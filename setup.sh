@@ -27,14 +27,18 @@ while true; do
     echo "The value of \"hostname\" is $hostname."
     wget http://$server/scripts.zip
     wget http://$server/$hostname/configuration.zip
+    wget http://$server/$hostname/temp.zip
     mv ./scripts.zip /srv/minecraft/scripts
     mv ./configuration.zip /srv/minecraft/configuration
+    mv ./temp.zip /srv/minecraft/temp
     cd /srv/minecraft/scripts
     unzip -o /srv/minecraft/scripts/scripts.zip
     cd /srv/minecraft/configuration
-    unzip -o /srv/minecraft/scripts/configuration.zip
-    mv /srv/minecraft/scripts/scripts.zip /srv/minecraft/temp/scripts.zip 
-
+    unzip -o /srv/minecraft/configuration/configuration.zip
+    mv /srv/minecraft/configuration/configuration.zip /srv/minecraft/temp/garbage/configuration.zip
+    cd /srv/minecraft/temp
+    unzip -o /srv/minecraft/temp/temp.zip
+    mv /srv/minecraft/temp/temp.zip /srv/minecraft/temp/garbage/temp.zip
     sh /srv/minecraft/scripts/setup/1.sh
     
     esac
