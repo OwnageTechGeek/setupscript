@@ -2,17 +2,14 @@
 
   #This is the main script that will handle most communication between all of the various scripts.
   
-  
+  $FILEDIR='cat /srv/minecraft/configuration/filedir'
+  $SCRIPTDIR='cat /srv/minecraft/configuration/scriptdir'
   
   case "$1" in
 	log)
 		# Logs
-		/srv/mincraft/
-		
-		else
-			check_links
-			to_ram
-			mc_start
+		sh "$SCRIPTDIR/logger" $2 $3
+		echo "Sent to logger."
 		fi
 		;;
 	stop)
