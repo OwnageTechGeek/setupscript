@@ -3,17 +3,34 @@
   #This script logs items.
   $WRITETOFILE=(date +%y-%m-%d).log
   $LOGDIR='cat /srv/minecraft/configuration/logdir'
+  $TIMESTAMP="$(date +"%T")"
   
 case "$1" in
 	log)
 		# Logs to file an error, warning, etc.
 		if [ "$2" == 1 ]; then
-		  sed -i 'Critical Error has occured | $* |' $LOGDIR/$WRITETOFILE 
-		  echo "Commmited."
+		  if [ "$3" == 1 ]; then
+			 sed -i 'Critical Error has occured | $* | $TIMESTAMP' $LOGDIR/$WRITETOFILE
+			 echo "Commmited."
+		  else
+			 sed -i 'Critical Error has occured | $* |' $LOGDIR/$WRITETOFILE
+			 echo "Commmited."
+		  
 		elif [ "$2" == 2 ]; then	
-		  sed -i 'Warning | $* |' $LOGDIR/$WRITETOFILE
-		  echo "Commited."
-		fi
+		  if [ "$3" == 1 ]; then 
+		  	sed -i 'Warning | $* | $TIMESTAMP' $LOGDIR/$WRITETOFILE
+		  	echo "Commited."
+		  else
+		  	sed -i 'Warning | $* |' $LOGDIR/$WRITETOFILE
+		  	echo "Commited."	
+		elif [ "$2 == 3"]; then
+		  if [ "$3" == 1 ]; then 
+		  	sed -i 'Alert | $* | $TIMESTAMP' $LOGDIR/$WRITETOFILE
+		  	echo "Commited."
+		  else
+		  	sed -i 'Alert | $* |' $LOGDIR/$WRITETOFILE
+		  	echo "Commited."
+		 fi
 		;;
 	*)
 		echo "No such command."
