@@ -4,6 +4,7 @@
   
   $FILEDIR='cat /srv/minecraft/configuration/filedir'
   $SCRIPTDIR='cat /srv/minecraft/configuration/scriptdir'
+  $BACKUPMESSAGE='Attention, the server is currently being backed up, until the backup is completed the server will not be saving any data.'
   
   case "$1" in
 	log)
@@ -14,12 +15,28 @@
 		;;
 	logrotate)
 		sh "$SCRIPTDIR/logrotate" $2 $3
+		if sh "$SCRIPTDIR/checkstatus $2" = 1
+			then
+			sh "$SCRIPTDIR/logrotate" $2 $3 
+			sh "$SCRIPTDIR/logger" 3 1 "The logs of $2 have been rotated"
+			echo "Logs rotated."
+		elese
+		echo "The server isn't online or doesn't exist."
+		
 		;;
-	*)
-	logarchive
-		echo "No such command, see $0 help"
-		exit 1
+	logarchive)
+		sh "$SCRIPTDIR/logrotate" $2 $3
+		echo "Logs archived"
 		;;
+	backup)
+		sh $FILEDIR/msc saveoff $2
+		sh $FILEDIR/msc saveall $2
+		sh $FILEDIR/msc announce $2 $3
+		sh $FILEDIR/msc
+		
+		
+	saveoff)
+		sh "$SCRIPTDIR/saveoff" $2 $3
 esac
 
 exit 0
